@@ -6,7 +6,7 @@ import org.apache.commons.cli.*;
 import java.io.IOException;
 
 public class CLIParser {
-    private Options options = new Options();
+    protected Options options = new Options();
     private DefaultParser parser = new DefaultParser();
     private HelpFormatter formatter = new HelpFormatter();
     private CommandHandler ch = new CommandHandler();
@@ -36,6 +36,9 @@ public class CLIParser {
             if (cmd.hasOption("s")) {
                 System.out.println("Show all lights");
                 ch.showAllLights();
+            } else if (cmd.hasOption("l")) {
+                System.out.println("Show one light");
+                ch.showOneLight(1);
             } else {
                 showHelp();
             }
