@@ -1,13 +1,17 @@
-package net.oivind.java.HueCLI;
+package net.oivind.java.HueCLI.parser;
 
+import net.oivind.java.HueCLI.core.CommandHandler;
 import org.apache.commons.cli.*;
 
-class CLIParser {
+import java.io.IOException;
+
+public class CLIParser {
     private Options options = new Options();
     private DefaultParser parser = new DefaultParser();
     private HelpFormatter formatter = new HelpFormatter();
+    private CommandHandler ch = new CommandHandler();
 
-    CLIParser() {
+    public CLIParser() {
         addOptions();
     }
 
@@ -26,15 +30,16 @@ class CLIParser {
 
     }
 
-    void doParse(String[] args) {
+    public void doParse(String[] args) {
         try {
             CommandLine cmd = parser.parse(options, args);
             if (cmd.hasOption("s")) {
                 System.out.println("Show all lights");
+                ch.showAllLights();
             } else {
                 showHelp();
             }
-        } catch (ParseException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
