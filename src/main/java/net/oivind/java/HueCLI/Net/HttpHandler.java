@@ -22,7 +22,6 @@ public class HttpHandler {
     public String doPut(String url, String json) throws IOException {
         HttpURLConnection con = openConnection("PUT", url);
 
-
         // Send put request
         OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream());
         osw.write(json);
