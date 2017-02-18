@@ -4,6 +4,7 @@ import net.oivind.java.HueCLI.Net.HttpHandler;
 import net.oivind.java.HueCLI.properties.PropertiesReader;
 
 import java.io.IOException;
+import java.util.StringJoiner;
 
 public class CommandHandler {
     private HttpHandler httph = new HttpHandler();
@@ -11,14 +12,28 @@ public class CommandHandler {
     private HueOperations hueOp = new HueOperations();
 
     public void showAllLights() throws IOException {
-        String url = pr.getProperty("huecli.url");
-        String username = pr.getProperty("huecli.username");
-        System.out.println(httph.doGet(url + "/" + username + "/" + hueOp.getPath("show_all_lights")));
+        System.out.println(httph.doGet(buildUrl() + "/" + hueOp.getPath("default")));
     }
 
     public void showOneLight(int lightNumber) throws IOException {
-        String url = pr.getProperty("huecli.url");
-        String username = pr.getProperty("huecli.username");
-        System.out.println(httph.doGet(url+"/"+username+"/"+hueOp.getPath("show_one_light")+"/"+Integer.toString(lightNumber)));
+        System.out.println(httph.doGet(buildUrl() + "/" + hueOp.getPath("default") + "/" + Integer.toString(lightNumber)));
+    }
+
+    public void toggleState(int lightNumber, boolean turnOn) throws IOException {
+        String json = "{\"on\":"+Boolean.toString(turnOn)+"}";
+        System.out.println(httph.doPut(buildUrl() + "/" + hueOp.getPath("default") + "/" + Integer.toString(lightNumber)+"/"+hueOp.getPath("change_state"),json));
+    }
+
+    private String buildUrl() {
+        StringJoiner sj = new StringJoiner("/");
+
+        try {
+            sj.add(pr.getProperty("huecli.url"));
+            sj.add(pr.getProperty("huecli.username"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return sj.toString();
     }
 }
