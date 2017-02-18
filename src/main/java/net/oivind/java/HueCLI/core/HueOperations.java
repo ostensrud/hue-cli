@@ -11,9 +11,8 @@ public class HueOperations {
     }
 
     private void addOperations() {
-        operations.put("show_all_lights", "lights");
-        operations.put("show_one_light", "lights");
-        operations.put("change_state", "lights");
+        operations.put("default", "lights");
+        operations.put("change_state", "state");
     }
 
     public String getPath(String operation) {
