@@ -47,13 +47,10 @@ public class CLIParser {
         try {
             CommandLine cmd = parser.parse(options, args);
             if (cmd.hasOption(SHOW_ALL)) {
-                System.out.println("Show all lights");
                 ch.showAllLights();
             } else if (cmd.hasOption(INFORMATION)) {
-                System.out.println("Show one light");
-                ch.showOneLight(1);
+                ch.showOneLight(Integer.parseInt(cmd.getOptionValue(INFORMATION)));
             } else if (cmd.hasOption(TOGGLE)) {
-                System.out.println("Toggle light");
                 final String[] optionValues = cmd.getOptionValues(TOGGLE);
                 ch.toggleState(Integer.parseInt(optionValues[0]), Boolean.valueOf(optionValues[1]));
             } else {
