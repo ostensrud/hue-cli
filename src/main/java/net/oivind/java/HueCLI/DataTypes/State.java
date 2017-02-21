@@ -1,16 +1,16 @@
 package net.oivind.java.HueCLI.DataTypes;
 
 public class State {
-    private final boolean on;
-    private final int bri;
-    private final int hue;
-    private final int sat;
+    private final Boolean on;
+    private final Integer bri;
+    private final Integer hue;
+    private final Integer sat;
     private final String effect;
-    private final Float[] xy;
-    private final int ct;
+    private final Double[] xy;
+    private final Integer ct;
     private final String alert;
     private final String colormode;
-    private final boolean reachable;
+    private final Boolean reachable;
 
     private State(StateBuilder builder) {
         this.on = builder.on;
@@ -25,32 +25,19 @@ public class State {
         this.reachable = builder.reachable;
     }
 
-    public State(boolean on, int bri, int hue, int sat, String effect, Float[] xy, int ct, String alert, String colormode, boolean reachable) {
-        this.on = on;
-        this.bri = bri;
-        this.hue = hue;
-        this.sat = sat;
-        this.effect = effect;
-        this.xy = xy;
-        this.ct = ct;
-        this.alert = alert;
-        this.colormode = colormode;
-        this.reachable = reachable;
-    }
-
-    public boolean isOn() {
+    public Boolean isOn() {
         return on;
     }
 
-    public int getBri() {
+    public Integer getBri() {
         return bri;
     }
 
-    public int getHue() {
+    public Integer getHue() {
         return hue;
     }
 
-    public int getSat() {
+    public Integer getSat() {
         return sat;
     }
 
@@ -58,11 +45,11 @@ public class State {
         return effect;
     }
 
-    public Float[] getXy() {
+    public Double[] getXy() {
         return xy;
     }
 
-    public int getCt() {
+    public Integer getCt() {
         return ct;
     }
 
@@ -74,38 +61,38 @@ public class State {
         return colormode;
     }
 
-    public boolean isReachable() {
+    public Boolean isReachable() {
         return reachable;
     }
 
     public static class StateBuilder {
-        private boolean on;
-        private int bri;
-        private int hue;
-        private int sat;
+        private Boolean on;
+        private Integer bri;
+        private Integer hue;
+        private Integer sat;
         private String effect;
-        private Float[] xy;
-        private int ct;
+        private Double[] xy;
+        private Integer ct;
         private String alert;
         private String colormode;
-        private boolean reachable;
+        private Boolean reachable;
 
-        public StateBuilder withOn(boolean on) {
+        public StateBuilder withOn(Boolean on) {
             this.on = on;
             return this;
         }
 
-        public StateBuilder withBrightness(int brightness) {
+        public StateBuilder withBrightness(Integer brightness) {
             this.bri = brightness;
             return this;
         }
 
-        public StateBuilder withHue(int hue) {
+        public StateBuilder withHue(Integer hue) {
             this.hue = hue;
             return this;
         }
 
-        public StateBuilder withSaturation(int saturation) {
+        public StateBuilder withSaturation(Integer saturation) {
             this.sat = saturation;
             return this;
         }
@@ -115,12 +102,12 @@ public class State {
             return this;
         }
 
-        public StateBuilder withXY(Float[] xy) {
+        public StateBuilder withXY(Double[] xy) {
             this.xy = xy;
             return this;
         }
 
-        public StateBuilder withCT(int ct) {
+        public StateBuilder withCT(Integer ct) {
             this.ct = ct;
             return this;
         }
@@ -135,7 +122,7 @@ public class State {
             return this;
         }
 
-        public StateBuilder withReachable(boolean reachable) {
+        public StateBuilder withReachable(Boolean reachable) {
             this.reachable = reachable;
             return this;
         }
