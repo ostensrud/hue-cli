@@ -139,5 +139,9 @@ public class State {
             this.reachable = reachable;
             return this;
         }
+
+        public State build() {
+            return new State(this);
+        }
     }
 }

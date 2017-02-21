@@ -108,5 +108,9 @@ public class Light {
             this.swversion = swVersion;
             return this;
         }
+
+        public Light build() {
+            return new Light(this);
+        }
     }
 }
