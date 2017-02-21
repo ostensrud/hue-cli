@@ -27,16 +27,6 @@ public class Light {
         this.swversion = builder.swversion;
     }
 
-    public Light(int lightNumber, State state, String type, String name, String modelid, String manufacturername, String uniqueid, String swversion) {
-        this.state = state;
-        this.type = type;
-        this.name = name;
-        this.modelid = modelid;
-        this.manufacturername = manufacturername;
-        this.uniqueid = uniqueid;
-        this.swversion = swversion;
-    }
-
     public State getState() {
         return state;
     }
