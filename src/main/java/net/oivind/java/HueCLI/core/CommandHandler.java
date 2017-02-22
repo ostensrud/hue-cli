@@ -9,10 +9,16 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class CommandHandler {
-    private HttpHandler httph = new HttpHandler();
-    private PropertiesReader pr = new PropertiesReader();
-    private HueOperations hueOp = new HueOperations();
-    private JSONHelper jsonHelper = new JSONHelper();
+    private HttpHandler httph;
+    private PropertiesReader pr;
+    private JSONHelper jsonHelper;
+    private HueOperations hueOp  = new HueOperations();
+
+    public CommandHandler(HttpHandler httph, PropertiesReader pr, JSONHelper jsonHelper) {
+        this.httph = httph;
+        this.pr = pr;
+        this.jsonHelper = jsonHelper;
+    }
 
     public void showAllLights() throws IOException {
         System.out.println();

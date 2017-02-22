@@ -9,17 +9,27 @@ public class CLIParser {
     protected Options options = new Options();
     private DefaultParser parser = new DefaultParser();
     private HelpFormatter formatter = new HelpFormatter();
-    private CommandHandler ch = new CommandHandler();
+    private CommandHandler ch;
 
     private final String SHOW_ALL = "show-all";
     private final String INFORMATION = "information";
     private final String TOGGLE = "toggle";
+    private final String LIGHT = "light";
 
-    public CLIParser() {
+    public CLIParser(CommandHandler ch) {
+        this.ch = ch;
         addOptions();
     }
 
-    private void addOptions() {
+    protected void addOptions() {
+
+        options.addOption(Option.builder("l")
+                .longOpt(LIGHT)
+                .hasArg()
+                .numberOfArgs(1)
+                .argName("light number")
+                .desc("Light number. Used without any other options it will show information about one light.")
+                .build());
 
         options.addOption(Option.builder("s")
                 .argName("s")
@@ -27,20 +37,13 @@ public class CLIParser {
                 .desc("Show all lights")
                 .build());
 
-        options.addOption(Option.builder("i")
-                .longOpt(INFORMATION)
-                .desc("Show information about one light or one group")
-                .hasArg()
-                .build());
-
-
         options.addOption(Option.builder("t")
                 .longOpt(TOGGLE)
                 .desc("Turn light on or off")
                 .hasArg()
-                .numberOfArgs(2)
+                .numberOfArgs(1)
+                .valueSeparator()
                 .build());
-
     }
 
     public void doParse(String[] args) {
@@ -48,11 +51,10 @@ public class CLIParser {
             CommandLine cmd = parser.parse(options, args);
             if (cmd.hasOption(SHOW_ALL)) {
                 ch.showAllLights();
-            } else if (cmd.hasOption(INFORMATION)) {
-                ch.showOneLight(Integer.parseInt(cmd.getOptionValue(INFORMATION)));
-            } else if (cmd.hasOption(TOGGLE)) {
-                final String[] optionValues = cmd.getOptionValues(TOGGLE);
-                ch.toggleState(Integer.parseInt(optionValues[0]), Boolean.valueOf(optionValues[1]));
+            } else if (cmd.hasOption(TOGGLE) && cmd.hasOption(LIGHT)) {
+                ch.toggleState(Integer.parseInt(cmd.getOptionValue(LIGHT)), Boolean.valueOf(cmd.getOptionValue(TOGGLE)));
+            } else if (cmd.hasOption(LIGHT)) {
+                ch.showOneLight(Integer.parseInt(cmd.getOptionValue(LIGHT)));
             } else {
                 showHelp();
             }
@@ -61,7 +63,7 @@ public class CLIParser {
         }
     }
 
-    private void showHelp() {
+    protected void showHelp() {
         formatter.printHelp("Usage", options);
     }
 }
