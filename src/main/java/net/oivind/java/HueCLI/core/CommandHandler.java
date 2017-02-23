@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import static net.oivind.java.HueCLI.util.PrettyPrinter.printAllLights;
+import static net.oivind.java.HueCLI.util.PrettyPrinter.printOneLight;
+
 public class CommandHandler {
     private HttpHandler httph;
     private PropertiesReader pr;
     private JSONHelper jsonHelper;
-    private HueOperations hueOp  = new HueOperations();
+    private HueOperations hueOp = new HueOperations();
 
     public CommandHandler(HttpHandler httph, PropertiesReader pr, JSONHelper jsonHelper) {
         this.httph = httph;
@@ -21,25 +24,14 @@ public class CommandHandler {
     }
 
     public void showAllLights() throws IOException {
-        System.out.println();
         Map<String, Light> lights = jsonHelper.mapJsonToObject(httph.doGet(buildUrl() + "/" + hueOp.getPath("default")), Light.gsonType);
-        StringBuilder sb = new StringBuilder();
-
-        int counter = 1;
-        for (String key : lights.keySet()) {
-            sb.append(counter++)
-                    .append(" : ")
-                    .append(lights.get(key).getName())
-                    .append(" [")
-                    .append(lights.get(key).getState().isOn())
-                    .append("]\n");
-        }
-
-        System.out.print(sb.toString());
+        printAllLights(lights);
     }
 
     public void showOneLight(int lightNumber) throws IOException {
-        System.out.println(httph.doGet(buildUrl() + "/" + hueOp.getPath("default") + "/" + Integer.toString(lightNumber)));
+        String lightInfo = httph.doGet(buildUrl() + "/" + hueOp.getPath("default") + "/" + Integer.toString(lightNumber));
+        Light light = jsonHelper.mapJsonToObject(lightInfo);
+        printOneLight(light);
     }
 
     public void toggleState(int lightNumber, boolean turnOn) throws IOException {
