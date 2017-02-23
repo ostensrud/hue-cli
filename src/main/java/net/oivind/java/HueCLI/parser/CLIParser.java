@@ -52,7 +52,11 @@ public class CLIParser {
             if (cmd.hasOption(SHOW_ALL)) {
                 ch.showAllLights();
             } else if (cmd.hasOption(TOGGLE) && cmd.hasOption(LIGHT)) {
-                ch.toggleState(Integer.parseInt(cmd.getOptionValue(LIGHT)), Boolean.valueOf(cmd.getOptionValue(TOGGLE)));
+                String toggleVal = cmd.getOptionValue(TOGGLE);
+                if (!"on".equalsIgnoreCase(toggleVal) && !"off".equalsIgnoreCase(toggleVal)) {
+                    throw new ParseException("Invalid option. Valid is [on|off]");
+                }
+                ch.toggleState(Integer.parseInt(cmd.getOptionValue(LIGHT)), cmd.getOptionValue(TOGGLE).equalsIgnoreCase("on"));
             } else if (cmd.hasOption(LIGHT)) {
                 ch.showOneLight(Integer.parseInt(cmd.getOptionValue(LIGHT)));
             } else {

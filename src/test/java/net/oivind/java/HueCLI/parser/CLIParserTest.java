@@ -72,15 +72,22 @@ public class CLIParserTest {
 
     @Test
     public void should_show_usage_if_toggle_is_specified_without_light() throws Exception {
-        cliParser.doParse(new String[]{"--toggle=false"});
+        cliParser.doParse(new String[]{"--toggle=off"});
         assertThat(outContent.toString()).contains("Usage");
     }
 
     @Test
     public void should_toggle_light_if_toggle_and_light_is_specified() throws Exception {
         doNothing().when(commandHandler).toggleState(any(int.class), any(boolean.class));
-        cliParser.doParse(new String[]{"--toggle=false", "--light=1"});
+        cliParser.doParse(new String[]{"--toggle=off", "--light=1"});
         assertThat(errContent.toString()).isEmpty();
         assertThat(outContent.toString()).isEmpty();
+    }
+
+    @Test
+    public void should_only_accept_on_or_off_as_argument_to_toggle() throws Exception {
+        doNothing().when(commandHandler).toggleState(any(int.class), any(boolean.class));
+        cliParser.doParse(new String[]{"--toggle=false", "--light=1"});
+        assertThat(errContent.toString()).contains("ParseException");
     }
 }
