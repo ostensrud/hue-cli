@@ -25,6 +25,8 @@ public class CommandHandler {
         this.jsonHelper = jsonHelper;
     }
 
+    // TODO: Better solutions for state/toggle and url-building
+
     public void showAllLights() throws IOException {
         Map<String, Light> lights = jsonHelper.mapJsonToObject(httph.doGet(buildUrl() + "/" + hueOp.getPath("default")), Light.gsonType);
         printAllLights(lights);

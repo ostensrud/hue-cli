@@ -12,7 +12,6 @@ public class CLIParser {
     private CommandHandler ch;
 
     private final String SHOW_ALL = "show-all";
-    private final String INFORMATION = "information";
     private final String TOGGLE = "toggle";
     private final String LIGHT = "light";
     private final String BRIGHTNESS = "brightness";
@@ -65,6 +64,7 @@ public class CLIParser {
     public void doParse(String[] args) {
         try {
             CommandLine cmd = parser.parse(options, args);
+            //TODO: solve this better
             if (cmd.hasOption(SHOW_ALL)) {
                 ch.showAllLights();
             } else if (cmd.hasOption(TOGGLE) && cmd.hasOption(LIGHT)) {
