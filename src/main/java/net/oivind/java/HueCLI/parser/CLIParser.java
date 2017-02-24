@@ -15,6 +15,8 @@ public class CLIParser {
     private final String INFORMATION = "information";
     private final String TOGGLE = "toggle";
     private final String LIGHT = "light";
+    private final String BRIGHTNESS = "brightness";
+    private final String HUE = "hue";
 
     public CLIParser(CommandHandler ch) {
         this.ch = ch;
@@ -44,6 +46,20 @@ public class CLIParser {
                 .numberOfArgs(1)
                 .valueSeparator()
                 .build());
+
+        options.addOption(Option.builder("b")
+                .longOpt(BRIGHTNESS)
+                .desc("Change the brightness of a light")
+                .hasArg()
+                .numberOfArgs(1)
+                .build());
+
+        options.addOption(Option.builder("h")
+                .longOpt(HUE)
+                .desc("Change the color of a light")
+                .hasArg()
+                .numberOfArgs(1)
+                .build());
     }
 
     public void doParse(String[] args) {
@@ -57,6 +73,8 @@ public class CLIParser {
                     throw new ParseException("Invalid option. Valid is [on|off]");
                 }
                 ch.toggleState(Integer.parseInt(cmd.getOptionValue(LIGHT)), cmd.getOptionValue(TOGGLE).equalsIgnoreCase("on"));
+            } else if ((cmd.hasOption(BRIGHTNESS) || cmd.hasOption(HUE)) && cmd.hasOption(LIGHT)) {
+                ch.changeState(Integer.parseInt(cmd.getOptionValue(LIGHT)), cmd);
             } else if (cmd.hasOption(LIGHT)) {
                 ch.showOneLight(Integer.parseInt(cmd.getOptionValue(LIGHT)));
             } else {

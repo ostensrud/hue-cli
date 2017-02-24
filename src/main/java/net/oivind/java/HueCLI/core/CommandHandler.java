@@ -1,8 +1,10 @@
 package net.oivind.java.HueCLI.core;
 
 import net.oivind.java.HueCLI.DataTypes.Light;
+import net.oivind.java.HueCLI.DataTypes.State;
 import net.oivind.java.HueCLI.Net.HttpHandler;
 import net.oivind.java.HueCLI.properties.PropertiesReader;
+import org.apache.commons.cli.CommandLine;
 
 import java.io.IOException;
 import java.util.Map;
@@ -36,7 +38,31 @@ public class CommandHandler {
 
     public void toggleState(int lightNumber, boolean turnOn) throws IOException {
         String json = "{\"on\":" + Boolean.toString(turnOn) + "}";
-        System.out.println(httph.doPut(buildUrl() + "/" + hueOp.getPath("default") + "/" + Integer.toString(lightNumber) + "/" + hueOp.getPath("change_state"), json));
+        System.out.println(httph.doPut(
+                buildUrl() + "/" +
+                        hueOp.getPath("default") + "/" +
+                        Integer.toString(lightNumber) + "/" +
+                        hueOp.getPath("change_state"),
+                json)
+        );
+    }
+
+    public void changeState(int lightNumber, CommandLine cmd) throws IOException {
+        State.StateBuilder stateBuilder = new State.StateBuilder();
+
+        if (cmd.hasOption("brightness")) {
+            stateBuilder.withBrightness(Integer.parseInt(cmd.getOptionValue("brightness")));
+        }
+        if (cmd.hasOption("hue")) {
+            stateBuilder.withHue(Integer.parseInt(cmd.getOptionValue("hue")));
+        }
+
+        System.out.println(httph.doPut(
+                buildUrl() + "/" +
+                        hueOp.getPath("default") + "/" +
+                        Integer.toString(lightNumber) + "/" +
+                        hueOp.getPath("change_state"),
+                jsonHelper.mapObjectToJson(stateBuilder.build())));
     }
 
     private String buildUrl() {

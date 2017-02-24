@@ -1,21 +1,20 @@
 package net.oivind.java.HueCLI.DataTypes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import net.oivind.java.HueCLI.core.JSONHelper;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 public class StateTest {
 
-    Gson gson = new GsonBuilder().create();
+    private JSONHelper jsonHelper = new JSONHelper();
 
     @Test
     public void should_build_state_with_only_the_given_fields() throws Exception {
         State stateBuilder = new State.StateBuilder()
                 .withOn(false)
                 .build();
-        String json = gson.toJson(stateBuilder);
+        String json = jsonHelper.mapObjectToJson(stateBuilder);
 
         assertThat(json).isEqualToIgnoringCase("{\"on\":false}");
     }
@@ -39,7 +38,7 @@ public class StateTest {
                 .withReachable(true)
                 .build();
 
-        String json = gson.toJson(state);
+        String json = jsonHelper.mapObjectToJson(state);
         assertThat(json).isEqualTo(stateJson());
     }
 
