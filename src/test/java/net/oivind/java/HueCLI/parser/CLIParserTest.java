@@ -1,8 +1,11 @@
 package net.oivind.java.HueCLI.parser;
 
 import net.oivind.java.HueCLI.core.CommandHandler;
+import org.apache.commons.cli.MissingArgumentException;
+import org.apache.commons.cli.ParseException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -36,10 +39,9 @@ public class CLIParserTest {
         assertThat(outContent.toString()).contains("Usage");
     }
 
-    @Test
+    @Test(expected = MissingArgumentException.class)
     public void should_throw_exception_when_not_all_required_parameters_are_given() throws Exception {
         cliParser.doParse(new String[]{"--light"});
-        assertThat(errContent.toString()).contains("MissingArgumentException");
     }
 
     @Test
@@ -50,10 +52,9 @@ public class CLIParserTest {
         assertThat(errContent.toString()).isEmpty();
     }
 
-    @Test
+    @Test(expected = MissingArgumentException.class)
     public void should_fail_when_light_number_is_not_specified() throws Exception {
         cliParser.doParse(new String[]{"--light"});
-        assertThat(errContent.toString()).contains("MissingArgumentException");
     }
 
     @Test
@@ -84,10 +85,10 @@ public class CLIParserTest {
         assertThat(outContent.toString()).isEmpty();
     }
 
-    @Test
+    @Test(expected = ParseException.class)
+    @Ignore //TODO: throw exception on validation... perhaps something other than parseexception
     public void should_only_accept_on_or_off_as_argument_to_toggle() throws Exception {
         doNothing().when(commandHandler).toggleState(any(int.class), any(boolean.class));
         cliParser.doParse(new String[]{"--toggle=false", "--light=1"});
-        assertThat(errContent.toString()).contains("ParseException");
     }
 }
