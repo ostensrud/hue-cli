@@ -7,12 +7,12 @@ public class CLIOptions {
 
     private Options options = new Options();
 
-    protected final String SHOW_ALL = "show-all";
-    protected final String TOGGLE = "toggle";
-    protected final String LIGHT = "light";
-    protected final String BRIGHTNESS = "brightness";
-    protected final String HUE = "hue";
-    protected final String ALERT = "alert";
+    public static final String SHOW_ALL = "show-all";
+    public static final String TOGGLE = "toggle";
+    public static final String LIGHT = "light";
+    public static final String BRIGHTNESS = "brightness";
+    public static final String HUE = "hue";
+    public static final String ALERT = "alert";
 
     public CLIOptions() {
         addOptions();
