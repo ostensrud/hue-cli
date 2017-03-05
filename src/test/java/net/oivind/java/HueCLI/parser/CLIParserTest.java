@@ -2,10 +2,8 @@ package net.oivind.java.HueCLI.parser;
 
 import net.oivind.java.HueCLI.core.CommandHandler;
 import org.apache.commons.cli.MissingArgumentException;
-import org.apache.commons.cli.ParseException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -72,23 +70,10 @@ public class CLIParserTest {
     }
 
     @Test
-    public void should_show_usage_if_toggle_is_specified_without_light() throws Exception {
-        cliParser.doParse(new String[]{"--toggle=off"});
-        assertThat(outContent.toString()).contains("Usage");
-    }
-
-    @Test
     public void should_toggle_light_if_toggle_and_light_is_specified() throws Exception {
         doNothing().when(commandHandler).toggleState(any(int.class), any(boolean.class));
         cliParser.doParse(new String[]{"--toggle=off", "--light=1"});
         assertThat(errContent.toString()).isEmpty();
         assertThat(outContent.toString()).isEmpty();
-    }
-
-    @Test(expected = ParseException.class)
-    @Ignore //TODO: throw exception on validation... perhaps something other than parseexception
-    public void should_only_accept_on_or_off_as_argument_to_toggle() throws Exception {
-        doNothing().when(commandHandler).toggleState(any(int.class), any(boolean.class));
-        cliParser.doParse(new String[]{"--toggle=false", "--light=1"});
     }
 }
