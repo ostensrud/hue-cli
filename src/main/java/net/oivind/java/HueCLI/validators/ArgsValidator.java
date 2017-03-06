@@ -25,4 +25,25 @@ public class ArgsValidator {
             throw new IllegalArgumentException("Toggle must be [on|off]");
         }
     }
+
+    public static void validateHue(CommandLine cmd) {
+        String optionValue = cmd.getOptionValue(CLIOptions.HUE);
+
+        try {
+            int hue = Integer.parseInt(optionValue);
+            if (hue < 0 || hue > 65535) {
+                throw new IllegalArgumentException("Hue must be a positive integer between 0 and 65535");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Hue must be a positive integer between 0 and 65535");
+        }
+    }
+
+    public static void validateAlert(CommandLine cmd) {
+        String optionValue = cmd.getOptionValue(CLIOptions.ALERT);
+
+        if (!"none".equals(optionValue) && !"select".equals(optionValue) && !"lselect".equals(optionValue)) {
+            throw new IllegalArgumentException("Alert must be [none|select|lselect]");
+        }
+    }
 }

@@ -25,6 +25,14 @@ public class Validator {
             if (cmd.hasOption(CLIOptions.TOGGLE)) {
                 ArgsValidator.validateToggle(cmd);
             }
+
+            if (cmd.hasOption(CLIOptions.HUE)) {
+                ArgsValidator.validateHue(cmd);
+            }
+
+            if (cmd.hasOption(CLIOptions.ALERT)) {
+                ArgsValidator.validateAlert(cmd);
+            }
         } else if (!lightNumberIsValid && !cmd.hasOption(CLIOptions.SHOW_ALL) && cmd.getOptions().length >= 1){
             throw new IllegalArgumentException("Light number must be specified to change state");
         }

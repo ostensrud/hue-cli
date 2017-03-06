@@ -3,6 +3,7 @@ package net.oivind.java.HueCLI.core;
 import net.oivind.java.HueCLI.DataTypes.Light;
 import net.oivind.java.HueCLI.DataTypes.State;
 import net.oivind.java.HueCLI.Net.HttpHandler;
+import net.oivind.java.HueCLI.parser.CLIOptions;
 import net.oivind.java.HueCLI.properties.PropertiesReader;
 import org.apache.commons.cli.CommandLine;
 
@@ -52,11 +53,14 @@ public class CommandHandler {
     public void changeState(int lightNumber, CommandLine cmd) throws IOException {
         State.StateBuilder stateBuilder = new State.StateBuilder();
 
-        if (cmd.hasOption("brightness")) {
-            stateBuilder.withBrightness(Integer.parseInt(cmd.getOptionValue("brightness")));
+        if (cmd.hasOption(CLIOptions.BRIGHTNESS)) {
+            stateBuilder.withBrightness(Integer.parseInt(cmd.getOptionValue(CLIOptions.BRIGHTNESS)));
         }
-        if (cmd.hasOption("hue")) {
-            stateBuilder.withHue(Integer.parseInt(cmd.getOptionValue("hue")));
+        if (cmd.hasOption(CLIOptions.HUE)) {
+            stateBuilder.withHue(Integer.parseInt(cmd.getOptionValue(CLIOptions.HUE)));
+        }
+        if (cmd.hasOption(CLIOptions.ALERT)) {
+            stateBuilder.withAlert(cmd.getOptionValue(CLIOptions.ALERT));
         }
 
         System.out.println(httph.doPut(
