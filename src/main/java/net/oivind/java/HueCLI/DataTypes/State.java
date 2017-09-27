@@ -12,7 +12,7 @@ public class State {
     private final String colormode;
     private final Boolean reachable;
 
-    private State(StateBuilder builder) {
+    State(StateBuilder builder) {
         this.on = builder.on;
         this.bri = builder.bri;
         this.hue = builder.hue;

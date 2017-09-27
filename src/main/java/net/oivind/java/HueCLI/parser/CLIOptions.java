@@ -7,12 +7,13 @@ public class CLIOptions {
 
     private Options options = new Options();
 
-    public static final String SHOW_ALL = "show-all";
+    public static final String SHOW_ALL_LIGHTS = "show-lights";
     public static final String TOGGLE = "toggle";
     public static final String LIGHT = "light";
     public static final String BRIGHTNESS = "brightness";
     public static final String HUE = "hue";
     public static final String ALERT = "alert";
+    public static final String SHOW_ALL_GROUPS = "show-groups";
 
     public CLIOptions() {
         addOptions();
@@ -30,7 +31,8 @@ public class CLIOptions {
 
         options.addOption(Option.builder("s")
                 .argName("s")
-                .longOpt(SHOW_ALL)
+                .longOpt(SHOW_ALL_LIGHTS)
+                .hasArg(false)
                 .desc("Show all lights")
                 .build());
 
@@ -61,6 +63,11 @@ public class CLIOptions {
                 .desc("[none|select|lselect]")
                 .hasArg()
                 .numberOfArgs(1)
+                .build());
+
+        options.addOption(Option.builder("g")
+                .longOpt(SHOW_ALL_GROUPS)
+                .desc("Show all groups")
                 .build());
     }
 

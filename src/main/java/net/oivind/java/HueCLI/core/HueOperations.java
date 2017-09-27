@@ -13,6 +13,7 @@ public class HueOperations {
     private void addOperations() {
         operations.put("default", "lights");
         operations.put("change_state", "state");
+        operations.put("groups", "groups");
     }
 
     public String getPath(String operation) {

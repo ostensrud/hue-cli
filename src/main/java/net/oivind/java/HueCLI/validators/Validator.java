@@ -13,7 +13,7 @@ public class Validator {
             lightNumberIsValid = true;
         }
 
-        if (cmd.hasOption(CLIOptions.SHOW_ALL) && cmd.getOptions().length != 1) {
+        if (showAllIsSpecified(cmd) && cmd.getOptions().length != 1) {
             throw new IllegalArgumentException("--show-all cannot be combined with other arguments");
         }
 
@@ -33,8 +33,12 @@ public class Validator {
             if (cmd.hasOption(CLIOptions.ALERT)) {
                 ArgsValidator.validateAlert(cmd);
             }
-        } else if (!lightNumberIsValid && !cmd.hasOption(CLIOptions.SHOW_ALL) && cmd.getOptions().length >= 1){
+        } else if (!lightNumberIsValid && !showAllIsSpecified(cmd) && cmd.getOptions().length >= 1){
             throw new IllegalArgumentException("Light number must be specified to change state");
         }
+    }
+
+    private static boolean showAllIsSpecified(CommandLine cmd) {
+        return cmd.hasOption(CLIOptions.SHOW_ALL_LIGHTS) || cmd.hasOption(CLIOptions.SHOW_ALL_GROUPS);
     }
 }

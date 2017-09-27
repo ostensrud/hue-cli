@@ -1,8 +1,11 @@
 package net.oivind.java.HueCLI.util;
 
+import net.oivind.java.HueCLI.DataTypes.Group;
 import net.oivind.java.HueCLI.DataTypes.Light;
+import net.oivind.java.HueCLI.DataTypes.State;
 
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class PrettyPrinter {
 
@@ -34,31 +37,50 @@ public class PrettyPrinter {
         System.out.println(sb.toString());
     }
 
-    public static void printOneLight(Light light) {
+    public static void printAllGroups(Map<String, Group> groups) {
         StringBuilder sb = new StringBuilder();
 
+        int counter = 1;
+        for (String key : groups.keySet()) {
+            State state = groups.get(key).getAction();
+            Integer[] lights = groups.get(key).getLights();
+
+            StringJoiner stringJoiner = new StringJoiner(",");
+            for (Integer light : lights) {
+                stringJoiner.add(light.toString());
+            }
+
+            //TODO show lights as on|off
+            sb.append(String.format("%3s", counter++))
+                    .append(String.format(" %-20s", groups.get(key).getName()))
+                    .append(String.format(" %-20s", state.isOn()))
+                    .append("\n");
+        }
+
+        System.out.println(sb.toString());
+    }
+
+    public static void printOneLight(Light light) {
         String format = "%-15s%s%n";
         String indent = "\t%-15s%s%n";
 
-        sb.append(String.format(format, "Name:", light.getName()))
-                .append(String.format(format, "Type:", light.getType()))
-                .append(String.format(format, "Model id:", light.getModelid()))
-                .append(String.format(format, "Manufacturer:", light.getManufacturername()))
-                .append(String.format(format, "Unique id:", light.getUniqueid()))
-                .append(String.format(format, "SW version:", light.getSwversion()))
-                .append(String.format(format, "[", ""))
-                .append(String.format(indent, "On:", light.getState().isOn()))
-                .append(String.format(indent, "Brightness:", light.getState().getBri()))
-                .append(String.format(indent, "Hue:", light.getState().getHue()))
-                .append(String.format(indent, "Saturation:", light.getState().getSat()))
-                .append(String.format(indent, "Effect", light.getState().getEffect()))
-                .append(String.format(indent, "CT:", light.getState().getCt()))
-                .append(String.format(indent, "Alert:", light.getState().getAlert()))
-                .append(String.format(indent, "Colormode:", light.getState().getColormode()))
-                .append(String.format(indent, "Reachable:", light.getState().isReachable()))
-                .append(String.format(format, "]", ""));
-
-        System.out.println(sb.toString());
+        System.out.println(String.format(format, "Name:", light.getName()) +
+                String.format(format, "Type:", light.getType()) +
+                String.format(format, "Model id:", light.getModelid()) +
+                String.format(format, "Manufacturer:", light.getManufacturername()) +
+                String.format(format, "Unique id:", light.getUniqueid()) +
+                String.format(format, "SW version:", light.getSwversion()) +
+                String.format(format, "[", "") +
+                String.format(indent, "On:", light.getState().isOn()) +
+                String.format(indent, "Brightness:", light.getState().getBri()) +
+                String.format(indent, "Hue:", light.getState().getHue()) +
+                String.format(indent, "Saturation:", light.getState().getSat()) +
+                String.format(indent, "Effect", light.getState().getEffect()) +
+                String.format(indent, "CT:", light.getState().getCt()) +
+                String.format(indent, "Alert:", light.getState().getAlert()) +
+                String.format(indent, "Colormode:", light.getState().getColormode()) +
+                String.format(indent, "Reachable:", light.getState().isReachable()) +
+                String.format(format, "]", ""));
     }
 
     public static String getOnOff(boolean state) {

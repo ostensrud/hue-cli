@@ -18,13 +18,13 @@ public class ValidatorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void should_fail_when_light_number_is_specified_with_show_all() throws Exception {
-        cmd = parser.parse(options.getOptions(), new String[]{"--light=1", "--show-all"});
+        cmd = parser.parse(options.getOptions(), new String[]{"--light=1", "--show-lights"});
         Validator.validate(cmd);
     }
 
     @Test
     public void should_only_allow_show_all() throws Exception {
-        cmd = parser.parse(options.getOptions(), new String[]{"--show-all"});
+        cmd = parser.parse(options.getOptions(), new String[]{"--show-lights"});
         Validator.validate(cmd);
     }
 

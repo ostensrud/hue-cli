@@ -1,5 +1,6 @@
 package net.oivind.java.HueCLI.core;
 
+import net.oivind.java.HueCLI.DataTypes.Group;
 import net.oivind.java.HueCLI.DataTypes.Light;
 import net.oivind.java.HueCLI.DataTypes.State;
 import net.oivind.java.HueCLI.Net.HttpHandler;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import static net.oivind.java.HueCLI.util.PrettyPrinter.printAllGroups;
 import static net.oivind.java.HueCLI.util.PrettyPrinter.printAllLights;
 import static net.oivind.java.HueCLI.util.PrettyPrinter.printOneLight;
 
@@ -35,7 +37,7 @@ public class CommandHandler {
 
     public void showOneLight(int lightNumber) throws IOException {
         String lightInfo = httph.doGet(buildUrl() + "/" + hueOp.getPath("default") + "/" + Integer.toString(lightNumber));
-        Light light = jsonHelper.mapJsonToObject(lightInfo);
+        Light light = jsonHelper.mapJsonToObject(lightInfo, Light.class);
         printOneLight(light);
     }
 
@@ -69,6 +71,11 @@ public class CommandHandler {
                         Integer.toString(lightNumber) + "/" +
                         hueOp.getPath("change_state"),
                 jsonHelper.mapObjectToJson(stateBuilder.build())));
+    }
+
+    public void showAllGroups() throws IOException {
+        Map<String, Group> groups = jsonHelper.mapJsonToObject(httph.doGet(buildUrl() + "/" + hueOp.getPath("groups")), Group.gsonType);
+        printAllGroups(groups);
     }
 
     private String buildUrl() {

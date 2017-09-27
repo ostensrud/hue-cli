@@ -25,8 +25,10 @@ public class CLIParser {
 
         Validator.validate(cmd);
 
-        if (cmd.hasOption(CLIOptions.SHOW_ALL)) {
+        if (cmd.hasOption(CLIOptions.SHOW_ALL_LIGHTS)) {
             ch.showAllLights();
+        } else if (cmd.hasOption(CLIOptions.SHOW_ALL_GROUPS)) {
+            ch.showAllGroups();
         } else if (toggleLight()) {
             ch.toggleState(getLightNumber(), lightOn());
         } else if (stateAndLight()) {

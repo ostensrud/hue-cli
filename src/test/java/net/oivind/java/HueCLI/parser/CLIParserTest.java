@@ -76,4 +76,12 @@ public class CLIParserTest {
         assertThat(errContent.toString()).isEmpty();
         assertThat(outContent.toString()).isEmpty();
     }
+
+    @Test
+    public void should_list_all_groups() throws Exception {
+        doNothing().when(commandHandler).showAllGroups();
+        cliParser.doParse(new String[]{"--show-groups"});
+        assertThat(errContent.toString()).isEmpty();
+        assertThat(outContent.toString()).doesNotContain("Usage");
+    }
 }
