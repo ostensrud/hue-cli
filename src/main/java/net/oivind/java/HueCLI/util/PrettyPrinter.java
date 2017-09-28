@@ -24,10 +24,11 @@ public class PrettyPrinter {
 
         int counter = 1;
         for (String key : lights.keySet()) {
+            Light light = lights.get(key);
             sb.append(String.format("%3s", counter++))
-                    .append(String.format(" %-20s", lights.get(key).getName()))
+                    .append(String.format(" %-20s", light.getName()))
                     .append(String.format("%-2s", "["))
-                    .append(String.format("%-3s", getOnOff(lights.get(key).getState().isOn())))
+                    .append(String.format("%-3s", getOnOff(light.getState().isOn())))
                     .append(String.format("%2s", "]"))
                     .append("\n");
         }
@@ -40,10 +41,11 @@ public class PrettyPrinter {
 
         int counter = 1;
         for (String key : groups.keySet()) {
+            Group group = groups.get(key);
             sb.append(String.format("%3s", counter++))
-                    .append(String.format(" %-20s", groups.get(key).getName()))
+                    .append(String.format(" %-20s", group.getName()))
                     .append(String.format("%-1s", "["))
-                    .append(String.format(" %-20s", showGroupState(groups.get(key), groups.get(key).getLights().length)))
+                    .append(String.format(" %-20s", showGroupState(group)))
                     .append(String.format("%2s", "]"))
                     .append("\n");
         }
@@ -51,17 +53,17 @@ public class PrettyPrinter {
         System.out.println(sb.toString());
     }
 
-    private static String showGroupState(Group group, Integer numberOfLights) {
+    private static String showGroupState(Group group) {
         if (group.getState() == null) {
             return null;
         }
 
         if (group.getState().isAny_on() && group.getState().isAll_on()) {
-            return ANSI_GREEN+"all lights("+ numberOfLights +") are on"+ANSI_RESET;
+            return ANSI_GREEN+"all lights are on"+ANSI_RESET;
         }
 
         if (group.getState().isAny_on() && !group.getState().isAll_on()) {
-            return ANSI_YELLOW+"some lights("+ numberOfLights +") are on"+ANSI_RESET;
+            return ANSI_YELLOW+"some lights are on"+ANSI_RESET;
         }
 
         return ANSI_RED+"all lights are off"+ANSI_RESET;
