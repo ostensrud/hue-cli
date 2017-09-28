@@ -13,12 +13,14 @@ public class Group {
     final Integer[] lights;
     final String type;
     final State action;
+    final GroupState state;
 
     private Group(GroupBuilder builder) {
         this.name = builder.name;
         this.lights = builder.lights;
         this.type = builder.type;
         this.action = builder.action;
+        this.state = builder.state;
     }
 
     public String getName() {
@@ -27,6 +29,10 @@ public class Group {
 
     public State getAction() {
         return action;
+    }
+
+    public GroupState getState() {
+        return state;
     }
 
     public Integer[] getLights() {
@@ -42,6 +48,7 @@ public class Group {
         private Integer[] lights;
         private String type;
         private State action;
+        private GroupState state;
 
         public GroupBuilder withName(String name) {
             this.name = name;
@@ -60,6 +67,11 @@ public class Group {
 
         public GroupBuilder withAction(State action) {
             this.action = action;
+            return this;
+        }
+
+        public GroupBuilder withState(GroupState state) {
+            this.state = state;
             return this;
         }
 

@@ -2,10 +2,8 @@ package net.oivind.java.HueCLI.util;
 
 import net.oivind.java.HueCLI.DataTypes.Group;
 import net.oivind.java.HueCLI.DataTypes.Light;
-import net.oivind.java.HueCLI.DataTypes.State;
 
 import java.util.Map;
-import java.util.StringJoiner;
 
 public class PrettyPrinter {
 
@@ -42,22 +40,31 @@ public class PrettyPrinter {
 
         int counter = 1;
         for (String key : groups.keySet()) {
-            State state = groups.get(key).getAction();
-            Integer[] lights = groups.get(key).getLights();
-
-            StringJoiner stringJoiner = new StringJoiner(",");
-            for (Integer light : lights) {
-                stringJoiner.add(light.toString());
-            }
-
-            //TODO show lights as on|off
             sb.append(String.format("%3s", counter++))
                     .append(String.format(" %-20s", groups.get(key).getName()))
-                    .append(String.format(" %-20s", state.isOn()))
+                    .append(String.format("%-1s", "["))
+                    .append(String.format(" %-20s", showGroupState(groups.get(key), groups.get(key).getLights().length)))
+                    .append(String.format("%2s", "]"))
                     .append("\n");
         }
 
         System.out.println(sb.toString());
+    }
+
+    private static String showGroupState(Group group, Integer numberOfLights) {
+        if (group.getState() == null) {
+            return null;
+        }
+
+        if (group.getState().isAny_on() && group.getState().isAll_on()) {
+            return ANSI_GREEN+"all lights("+ numberOfLights +") are on"+ANSI_RESET;
+        }
+
+        if (group.getState().isAny_on() && !group.getState().isAll_on()) {
+            return ANSI_YELLOW+"some lights("+ numberOfLights +") are on"+ANSI_RESET;
+        }
+
+        return ANSI_RED+"all lights are off"+ANSI_RESET;
     }
 
     public static void printOneLight(Light light) {

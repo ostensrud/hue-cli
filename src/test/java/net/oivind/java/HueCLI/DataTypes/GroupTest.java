@@ -78,6 +78,7 @@ public class GroupTest {
                 "            \"5\"\n" +
                 "        ],\n" +
                 "        \"type\": \"LightGroup\",\n" +
+                "        \"state\":{\"any_on\":true, \"all_on\":true},\n" +
                 "        \"action\": {\n" +
                 "            \"on\": false,\n" +
                 "            \"bri\": 153,\n" +
